@@ -1,0 +1,25 @@
+# Run the workbook on your own computer:
+#
+#   docker compose up -d
+#   open http://localhost:8080
+#
+# Add your course in the app, using the address of its repository.
+# Update the app:  docker compose pull && docker compose up -d
+#
+# Course authors and developers: compose.override.yaml next to this file adds a
+# course folder or builds the image from source, see the README.
+services:
+  workbook:
+    image: ghcr.io/melfkammholz/workbook:latest
+    ports:
+      # Only reachable from this computer.
+      - "127.0.0.1:8080:8080"
+    volumes:
+      # Your answers, notes and progress. Keep this volume to keep your work.
+      - workbook-data:/data
+    mem_limit: 2g
+    pids_limit: 1024
+    restart: unless-stopped
+
+volumes:
+  workbook-data:
